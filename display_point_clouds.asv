@@ -27,18 +27,18 @@ for i = 1:360
 end
 
 normals = pcnormals(pc);
-x1 = pc.Location(1:100:end,1);
-y1 = pc.Location(1:100:end,2);
-z1 = pc.Location(1:100:end,3);
-u = normals(1:100:end,1);
-v = normals(1:100:end,2);
-w = normals(1:100:end,3);
+x = pc.Location(1:10:end,1);
+y = pc.Location(1:10:end,2);
+z = pc.Location(1:10:end,3);
+u = normals(1:10:end,1);
+v = normals(1:10:end,2);
+w = normals(1:10:end,3);
 
 figure
 pcshow(pc)
 title('Estimated Normals of Point Cloud')
 hold on
-quiver3(x1,y1,z1,u,v,w);
+quiver3(x,y,z,u,v,w);
 hold off
 
 index = 2;
@@ -49,15 +49,14 @@ incz = 5;
 %r = zeros(350/inc,175/inc,20/inc);
 
 
-r = ones(size(x, 1),1);
+r = ones(size(normals, 1),1);
 
 for i = min(pc.XLimits):incx:max(pc.XLimits)
     for j = min(pc.YLimits):incy:max(pc.YLimits)
         for k = min(pc.ZLimits):incz:max(pc.ZLimits)
-            indices = x>i & x<=i+incx & y>j & y<=j+incy & z>k & z<=k+incz;
-            size(indices(indices==1))
+            indices = x>i & x<=i+incx & y>j & y<=y+incy & z>k & z<=k+incz;
             r(indices) = index;
-            index = index + 1;
+            index = index + 1
         end
     end
 end
@@ -67,5 +66,5 @@ writematrix(r,'indexes.csv');
 %cmap = jet(20000);
 %figure(), scatter3(x,y,z,10,cmap(r,:),'filled')
 
-%dividednormals = horzcat(normals,r);
+dividednormals = horzcat(normals,r);
 
